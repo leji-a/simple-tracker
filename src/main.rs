@@ -1,7 +1,6 @@
 mod app;
 mod config;
 mod files;
-mod input;
 mod model;
 
 use crate::app::{run_app, run_history_menu};

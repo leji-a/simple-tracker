@@ -1,5 +1,4 @@
 use crate::model::WatchedEpisodes;
-use crate::input::prompt_folder;
 use crate::config::{save_config, load_config, Config};
 use crossterm::event::{self, Event, KeyCode};
 use ratatui::{
@@ -18,7 +17,7 @@ fn clear_screen() {
     { let _ = std::process::Command::new("clear").status(); }
 }
 
-pub fn run_history_menu(history: &HashSet<String>) -> Result<Option<String>, Box<dyn std::error::Error>> {
+pub fn run_history_menu(_history: &HashSet<String>) -> Result<Option<String>, Box<dyn std::error::Error>> {
     let mut stdout = io::stdout();
     crossterm::terminal::enable_raw_mode()?;
     let backend = CrosstermBackend::new(&mut stdout);
