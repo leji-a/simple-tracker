@@ -93,10 +93,9 @@ tracker
 
 This will show a menu where you can:
 - Select from previously used folders
-- Add a new folder to track
+- Delete a folder from history with 'd'
 - Navigate using Up/Down arrow keys
 - Press Enter to select a folder
-- Press 'n' to add a new folder
 - Press 'q' to quit
 
 ### Direct Mode
@@ -114,48 +113,4 @@ tracker <folder_path>
 
 ### Example
 
-```bash
-# Interactive mode
-tracker
-
-# Direct mode
-tracker ~/Videos/Tom\ and\ Jerry/
 ```
-
-## How It Works
-
-The program creates a `watched.json` file in the specified folder to store the watch status of episodes. This file is automatically managed by the program and should not be edited manually.
-
-### File Structure
-
-- `watched.json`: Stores the watch status of episodes in each folder
-- `~/.config/tracker/config.json`: Stores the history of folders you've used
-- Episode files: Your video files in the specified folder
-
-## Building from Source
-
-1. Clone the repository:
-```bash
-git clone https://github.com/yourusername/tracker.git
-cd tracker
-```
-
-2. Build the project:
-```bash
-cargo build --release
-```
-
-## Dependencies
-
-- [ratatui](https://github.com/ratatui-org/ratatui): Terminal UI library
-- [crossterm](https://github.com/crossterm-rs/crossterm): Terminal manipulation library
-- [serde](https://github.com/serde-rs/serde): Serialization framework
-- [serde_json](https://github.com/serde-rs/json): JSON support for Serde
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## Contributing
-
-Feel free to submit a Pull Request. 

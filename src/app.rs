@@ -48,7 +48,7 @@ pub fn run_history_menu(history: &HashSet<String>) -> Result<Option<String>, Box
 
             // Title and instructions
             let title = Paragraph::new(
-                "Tracker - Select a folder or add a new one\nPress 'n' for new folder, 'd' to delete, 'q' to quit"
+                "Tracker - Select a folder or delete one with 'd', 'q' to quit"
             )
             .style(Style::default().add_modifier(Modifier::BOLD))
             .block(Block::default().borders(Borders::ALL));
@@ -75,21 +75,6 @@ pub fn run_history_menu(history: &HashSet<String>) -> Result<Option<String>, Box
             match key.code {
                 KeyCode::Char('q') => {
                     should_quit = true;
-                }
-                KeyCode::Char('n') => {
-                    crossterm::terminal::disable_raw_mode()?;
-                    terminal.show_cursor()?;
-                    clear_screen();
-                    if let Ok(folder) = prompt_folder() {
-                        let folder = folder.trim();
-                        if !folder.is_empty() {
-                            result = Some(folder.to_string());
-                            should_quit = true;
-                        }
-                    }
-                    clear_screen();
-                    crossterm::terminal::enable_raw_mode()?;
-                    terminal.hide_cursor()?;
                 }
                 KeyCode::Char('d') => {
                     if let Some(i) = list_state.selected() {
