@@ -1,23 +1,31 @@
+use crate::config::{load_config, save_config};
 use crate::model::WatchedEpisodes;
-use crate::config::{save_config, load_config, Config};
 use crossterm::event::{self, Event, KeyCode};
 use ratatui::{
-    Terminal,
     backend::CrosstermBackend,
     layout::{Constraint, Direction, Layout},
     style::{Modifier, Style},
     widgets::{Block, Borders, List, ListItem, ListState, Paragraph},
+    Terminal,
 };
 use std::{collections::HashSet, io};
 
 fn clear_screen() {
     #[cfg(windows)]
-    { let _ = std::process::Command::new("cmd").args(["/C", "cls"]).status(); }
+    {
+        let _ = std::process::Command::new("cmd")
+            .args(["/C", "cls"])
+            .status();
+    }
     #[cfg(not(windows))]
-    { let _ = std::process::Command::new("clear").status(); }
+    {
+        let _ = std::process::Command::new("clear").status();
+    }
 }
 
-pub fn run_history_menu(_history: &HashSet<String>) -> Result<Option<String>, Box<dyn std::error::Error>> {
+pub fn run_history_menu(
+    _history: &HashSet<String>,
+) -> Result<Option<String>, Box<dyn std::error::Error>> {
     let mut stdout = io::stdout();
     crossterm::terminal::enable_raw_mode()?;
     let backend = CrosstermBackend::new(&mut stdout);
@@ -39,18 +47,14 @@ pub fn run_history_menu(_history: &HashSet<String>) -> Result<Option<String>, Bo
             let chunks = Layout::default()
                 .direction(Direction::Vertical)
                 .margin(2)
-                .constraints([
-                    Constraint::Length(4),
-                    Constraint::Min(0),
-                ].as_ref())
+                .constraints([Constraint::Length(4), Constraint::Min(0)].as_ref())
                 .split(f.size());
 
             // Title and instructions
-            let title = Paragraph::new(
-                "Tracker - Select a folder or delete one with 'd', 'q' to quit"
-            )
-            .style(Style::default().add_modifier(Modifier::BOLD))
-            .block(Block::default().borders(Borders::ALL));
+            let title =
+                Paragraph::new("Tracker - Select a folder or delete one with 'd', 'q' to quit")
+                    .style(Style::default().add_modifier(Modifier::BOLD))
+                    .block(Block::default().borders(Borders::ALL));
             f.render_widget(title, chunks[0]);
 
             // Folder list
@@ -190,10 +194,7 @@ pub fn run_app(
                 .collect();
 
             let list = List::new(items)
-                .block(
-                    Block::default()
-                        .borders(Borders::ALL)
-                )
+                .block(Block::default().borders(Borders::ALL))
                 .highlight_style(Style::default().add_modifier(Modifier::BOLD));
 
             f.render_stateful_widget(list, chunks[0], &mut list_state);
