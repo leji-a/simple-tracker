@@ -9,6 +9,8 @@ A terminal-based episode tracker for TV shows, built with Rust. This program hel
 - Maintains watch history even after episodes are deleted
 - Simple keyboard navigation
 - Persistent storage of watch status in a JSON file
+- Saves a history of folders you've used the tracker with
+- Interactive folder selection menu
 
 ## Installation
 
@@ -82,13 +84,29 @@ cp target/release/tracker ~/.local/bin/
 
 ## Usage
 
+### Interactive Mode
+
+Simply run:
+```bash
+tracker
+```
+
+This will show a menu where you can:
+- Select from previously used folders
+- Add a new folder to track
+- Navigate using Up/Down arrow keys
+- Press Enter to select a folder
+- Press 'n' to add a new folder
+- Press 'q' to quit
+
+### Direct Mode
+
+You can also directly specify a folder:
 ```bash
 tracker <folder_path>
 ```
 
-Where `<folder_path>` is the path to the folder containing your episodes.
-
-### Controls
+### Controls in Episode Tracker
 
 - **Up/Down Arrow Keys**: Navigate through episodes
 - **Enter/Space**: Toggle watched status
@@ -97,6 +115,10 @@ Where `<folder_path>` is the path to the folder containing your episodes.
 ### Example
 
 ```bash
+# Interactive mode
+tracker
+
+# Direct mode
 tracker ~/Videos/Tom\ and\ Jerry/
 ```
 
@@ -106,7 +128,8 @@ The program creates a `watched.json` file in the specified folder to store the w
 
 ### File Structure
 
-- `watched.json`: Stores the watch status of episodes
+- `watched.json`: Stores the watch status of episodes in each folder
+- `~/.config/tracker/config.json`: Stores the history of folders you've used
 - Episode files: Your video files in the specified folder
 
 ## Building from Source

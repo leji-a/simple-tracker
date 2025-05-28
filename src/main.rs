@@ -1,8 +1,11 @@
 mod app;
+mod config;
 mod files;
+mod input;
 mod model;
 
-use crate::app::run_app;
+use crate::app::{run_app, run_history_menu};
+use crate::config::{add_to_history, load_config};
 use crate::files::{get_episodes, load_watched, save_watched};
 use std::process::Command;
 use std::{env, path::PathBuf};
@@ -15,14 +18,11 @@ fn clear_screen() {
     }
 }
 
-fn main() -> Result<(), Box<dyn std::error::Error>> {
-    clear_screen();
-    let folder = if let Some(arg) = env::args().nth(1) {
-        PathBuf::from(arg)
-    } else {
-        eprintln!("Usage: tracker <folder_path>");
-        std::process::exit(1);
-    };
+fn launch_tracker(folder: &str) -> Result<(), Box<dyn std::error::Error>> {
+    let folder = PathBuf::from(folder);
+    if let Err(e) = add_to_history(folder.to_str().unwrap_or_default()) {
+        eprintln!("Warning: Could not save folder to history: {}", e);
+    }
 
     let mut watched = load_watched(&folder);
     let mut episodes = get_episodes(&folder)?;
@@ -31,6 +31,28 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     save_watched(&folder, &watched);
     clear_screen();
+    Ok(())
+}
+
+fn main() -> Result<(), Box<dyn std::error::Error>> {
+    clear_screen();
+    
+    match env::args().nth(1) {
+        Some(folder_path) => {
+            // Direct folder tracking mode
+            clear_screen();
+            launch_tracker(&folder_path)?;
+        }
+        None => {
+            // History menu mode
+            let config = load_config();
+            if let Some(folder) = run_history_menu(&config.folder_history)? {
+                clear_screen();
+                launch_tracker(&folder)?;
+            }
+        }
+    }
+
     Ok(())
 }
 

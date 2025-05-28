@@ -1,6 +1,6 @@
 [package]
 name = "tracker"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 authors = ["leji-a <toviya3135@gmail.com>"]
 description = "A terminal-based episode tracker for TV shows"
@@ -15,3 +15,4 @@ ratatui = "0.26"
 crossterm = "0.27"
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
+dirs = "5.0"
