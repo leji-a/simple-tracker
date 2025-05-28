@@ -111,6 +111,3 @@ tracker <folder_path>
 - **Enter/Space**: Toggle watched status
 - **q**: Quit the program
 
-### Example
-
-```
